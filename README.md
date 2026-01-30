@@ -249,4 +249,4 @@ Open-source software licensed under the [MIT license](LICENSE).
 
 ## 📧 Support
 
-For questions or issues, please open an issue on GitHub or contact me at your.papilamurie@gmail.com
+For questions or issues, please open an issue on GitHub or contact me at papilamurie@gmail.com
