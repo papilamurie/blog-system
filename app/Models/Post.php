@@ -80,7 +80,7 @@ protected function imageUrl(): Attribute
 {
     return Attribute::make(
         get: fn () => $this->featured_image
-            ? Storage::disk('s3')->url($this->featured_image)
+            ? Storage::url($this->featured_image)
             : null
     );
 }

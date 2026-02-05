@@ -61,7 +61,7 @@ class PostController extends Controller
         // Handle image upload - CHANGED TO S3
         $imagePath = null;
         if ($request->hasFile('featured_image')) {
-            $imagePath = $request->file('featured_image')->store('posts', 's3');
+            $imagePath = $request->file('featured_image')->store('posts');
         }
 
         // Create post
@@ -130,9 +130,9 @@ class PostController extends Controller
         if ($request->hasFile('featured_image')) {
             // Delete old image from S3
             if ($post->featured_image) {
-                Storage::disk('s3')->delete($post->featured_image);
+                Storage::delete($post->featured_image);
             }
-            $validated['featured_image'] = $request->file('featured_image')->store('posts', 's3');
+            $validated['featured_image'] = $request->file('featured_image')->store('posts');
         }
 
         // Update published_at if status changed to published
@@ -161,7 +161,7 @@ class PostController extends Controller
 
         // Delete image from S3
         if ($post->featured_image) {
-            Storage::disk('s3')->delete($post->featured_image);
+            Storage::delete($post->featured_image);
         }
 
         $post->delete();
