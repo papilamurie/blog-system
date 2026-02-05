@@ -13,21 +13,21 @@ use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
-   public function index(Request $request)
-{
-    $query = Post::with(['user', 'category'])
-        ->where('user_id', Auth::id())
-        ->latest();
+    public function index(Request $request)
+    {
+        $query = Post::with(['user', 'category'])
+            ->where('user_id', Auth::id())
+            ->latest();
 
-    // Filter by status
-    if ($request->has('status') && $request->status !== '' && $request->status !== null) {
-        $query->where('status', $request->status);
+        // Filter by status
+        if ($request->has('status') && $request->status !== '' && $request->status !== null) {
+            $query->where('status', $request->status);
+        }
+
+        $posts = $query->paginate(15);
+
+        return view('admin.posts.index', compact('posts'));
     }
-
-    $posts = $query->paginate(15);
-
-    return view('admin.posts.index', compact('posts'));
-}
 
     public function create()
     {
@@ -58,10 +58,10 @@ class PostController extends Controller
             $count++;
         }
 
-        // Handle image upload
+        // Handle image upload - CHANGED TO S3
         $imagePath = null;
         if ($request->hasFile('featured_image')) {
-            $imagePath = $request->file('featured_image')->store('posts', 'public');
+            $imagePath = $request->file('featured_image')->store('posts', 's3');
         }
 
         // Create post
@@ -126,13 +126,13 @@ class PostController extends Controller
             'tags.*' => 'exists:tags,id',
         ]);
 
-        // Handle image upload
+        // Handle image upload - CHANGED TO S3
         if ($request->hasFile('featured_image')) {
-            // Delete old image
+            // Delete old image from S3
             if ($post->featured_image) {
-                Storage::disk('public')->delete($post->featured_image);
+                Storage::disk('s3')->delete($post->featured_image);
             }
-            $validated['featured_image'] = $request->file('featured_image')->store('posts', 'public');
+            $validated['featured_image'] = $request->file('featured_image')->store('posts', 's3');
         }
 
         // Update published_at if status changed to published
@@ -159,9 +159,9 @@ class PostController extends Controller
             abort(403);
         }
 
-        // Delete image
+        // Delete image from S3
         if ($post->featured_image) {
-            Storage::disk('public')->delete($post->featured_image);
+            Storage::disk('s3')->delete($post->featured_image);
         }
 
         $post->delete();

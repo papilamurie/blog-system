@@ -22,7 +22,7 @@
                 <div class="p-6">
                     <!-- Featured Image -->
                     @if($post->featured_image)
-                        <img src="{{ asset('storage/' . $post->featured_image) }}" alt="{{ $post->title }}" class="w-full h-64 object-cover rounded-lg mb-6">
+                       <img src="{{ $post->image_url }}" alt="{{ $post->title }}" class="w-full h-64 object-cover rounded-lg mb-6">
                     @endif
 
                     <!-- Title -->

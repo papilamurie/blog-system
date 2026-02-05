@@ -85,7 +85,7 @@
                             <article class="bg-white rounded-lg shadow hover:shadow-lg transition-shadow overflow-hidden">
                                 <!-- Featured Image -->
                                 @if($post->featured_image)
-                                    <img src="{{ asset('storage/' . $post->featured_image) }}" alt="{{ $post->title }}" class="w-full h-48 object-cover">
+                                   <img src="{{ $post->image_url }}" alt="{{ $post->title }}" class="w-full h-48 object-cover">
                                 @else
                                     <div class="w-full h-48 bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center">
                                         <span class="text-6xl">📝</span>

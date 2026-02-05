@@ -35,7 +35,7 @@
         <article class="bg-white rounded-lg shadow-lg overflow-hidden">
             <!-- Featured Image -->
             @if($post->featured_image)
-                <img src="{{ asset('storage/' . $post->featured_image) }}" alt="{{ $post->title }}" class="w-full h-96 object-cover">
+               <img src="{{ $post->image_url }}" alt="{{ $post->title }}" class="w-full h-96 object-cover">
             @endif
 
             <div class="p-8">
@@ -107,7 +107,7 @@
                     @foreach($relatedPosts as $related)
                         <article class="bg-white rounded-lg shadow hover:shadow-lg transition-shadow overflow-hidden">
                             @if($related->featured_image)
-                                <img src="{{ asset('storage/' . $related->featured_image) }}" alt="{{ $related->title }}" class="w-full h-40 object-cover">
+                              <img src="{{ $related->image_url }}" alt="{{ $related->title }}" class="w-full h-40 object-cover">
                             @else
                                 <div class="w-full h-40 bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center">
                                     <span class="text-4xl">📝</span>

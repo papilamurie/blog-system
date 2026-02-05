@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Support\Facades\Storage;
 
 class Post extends Model
 {
@@ -73,6 +75,15 @@ class Post extends Model
             && $this->published_at
             && $this->published_at->isPast();
     }
+    // Add this method to your Post model
+protected function imageUrl(): Attribute
+{
+    return Attribute::make(
+        get: fn () => $this->featured_image
+            ? Storage::disk('s3')->url($this->featured_image)
+            : null
+    );
+}
 
     protected static function boot()
     {
