@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Tag;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class TagSeeder extends Seeder
 {
@@ -24,8 +25,13 @@ class TagSeeder extends Seeder
             'Opinion',
         ];
 
-        foreach ($tags as $tag) {
-            Tag::create(['name' => $tag]);
+        foreach ($tags as $tagName) {
+            $slug = Str::slug($tagName);
+
+            Tag::updateOrCreate(
+                ['slug' => $slug],  // Match by slug
+                ['name' => $tagName, 'slug' => $slug]  // Update/create with this data
+            );
         }
 
         $this->command->info('Tags seeded successfully!');
