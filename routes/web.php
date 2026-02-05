@@ -7,10 +7,15 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CommentController;
 use Illuminate\Support\Facades\Route;
 
-// Public blog routes
-Route::get('/', [BlogController::class, 'index'])->name('blog.index');
-Route::get('/post/{slug}', [BlogController::class, 'show'])->name('blog.show');
-Route::post('/post/{post}/comment', [BlogController::class, 'storeComment'])->name('blog.comment.store')->middleware('auth');
+// Portfolio homepage (serves the static HTML file)
+Route::get('/', function () {
+    return response()->file(public_path('index.html'));
+});
+
+// Public blog routes (moved to /blog prefix)
+Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
+Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('blog.show');
+Route::post('/blog/{post}/comment', [BlogController::class, 'storeComment'])->name('blog.comment.store')->middleware('auth');
 
 // Auth routes
 require __DIR__.'/auth.php';
